@@ -131,7 +131,7 @@ public class CrazyRegex {
      * @return a pattern that looks for words and numbers that not shorter 2 and not longer 3
      */
     public Pattern findAllLettersAndDigitsWithLengthThree() {
-        return Pattern.compile("\\b[A-Za-z]{5}\\b");
+        return Pattern.compile("\\b\\w{2,3}\\b");
     }
 
     /**
