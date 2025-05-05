@@ -1,6 +1,10 @@
 package com.bobocode.basics;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * {@link HeterogeneousMaxHolder} is a multi-type container that holds maximum values per each type. It's kind of a
@@ -15,6 +19,8 @@ import java.util.Map;
  * @author Taras Boychuk
  */
 public class HeterogeneousMaxHolder {
+
+    private Map<Class<?>, Object> map = new HashMap<>();
 
     /**
      * A method put stores a provided value by its type, if the value is greater than the current maximum. In other words, the logic
@@ -32,6 +38,14 @@ public class HeterogeneousMaxHolder {
      */
     // todo: implement a method according to javadoc
 
+    public<T extends Comparable<? super T>> T put(Class<T> key, T value) {
+        var vle = map.get(key);
+        if (vle == null || value.compareTo((T) vle) > 0 ) {
+            return (T) map.put(key, value);
+        }
+        return value;
+    }
+
     /**
      * An overloaded method put implements the same logic using a custom comparator. A given comparator is wrapped with
      * a null-safe comparator, considering null smaller than any non-null object.
@@ -46,6 +60,14 @@ public class HeterogeneousMaxHolder {
      */
     // todo: implement a method according to javadoc
 
+    public<T> T put(Class<T> key, T value, Comparator<? super T> comparator) {
+        var vle = map.get(key);
+        if (vle == null || comparator.compare(value, (T) vle) > 0 ) {
+            return (T) map.put(key, value);
+        }
+        return value;
+    }
+
     /**
      * A method getMax returns a max value by the given type. If no value is stored by this type, then it returns null.
      *
@@ -54,4 +76,8 @@ public class HeterogeneousMaxHolder {
      * @return current max value or null
      */
     // todo: implement a method according to javadoc
+
+    public<T> Object getMax(Class<T> key) {
+        return map.get(key);
+    }
 }
